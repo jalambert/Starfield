@@ -33,7 +33,6 @@ void draw() {
       dot[i].show();
     }
   }
-  System.out.println(timer);
 }
 
 void mouseReleased() {
