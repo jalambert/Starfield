@@ -1,0 +1,103 @@
+Particle[] dot = new Particle[250];
+void setup() {
+  size(800, 800);
+  background(255);
+  dot[0] = new Oddball();
+  for (int i = 1; i < dot.length; i++) {
+    dot[i] = new Particle();
+  }
+}
+
+int boundary = (int)(Math.random()*600)+100;
+double startX;// = Math.random()*800;
+double startY;// = Math.random()*800;
+color Color = color((int)(Math.random()*255), (int)(Math.random()*255), (int)(Math.random()*255));
+int timer = 0;
+int num = 1;
+
+void draw() {
+  startX = dot[0].myX;
+  startY = boundary;
+  timer += 1;
+  fill(0, 0, 0, 16);
+  rect(0, 0, 800, 800);
+  for (int j = 0; j < num; j++) {
+    dot[j].move();
+    dot[j].show();
+    if (dot[0].myY < boundary && num != 250) {
+      for (int k = 0; k < dot.length; k++) {
+        dot[k].myX = dot[0].myX;
+        dot[k].myY = boundary;
+      }
+      for (int i = 1; i < dot.length; i++) {
+        dot[0].size = 4;
+        dot[i].move();
+        dot[i].show();
+        num = 250;
+      }
+    }
+  }
+
+  if (timer% 240== 0) {
+    boundary = (int)(Math.random()*600)+100;
+    num = 1;
+    dot[0] = new Oddball();
+    for (int i = 1; i < dot.length; i++) {
+      dot[i] = new Particle();
+    }
+  }
+  System.out.println(boundary + " " + dot[0].myY + " " + timer);
+  fill(0);
+  rect(0,796,800,4);
+}
+void mouseReleased() {
+  boundary = (int)(Math.random()*600)+100;
+  num = 1;
+  dot[0] = new Oddball();
+  for (int i = 1; i < dot.length; i++) {
+    dot[i] = new Particle();
+  }
+}
+
+class Particle {
+  double myX, myY, speed, angle;
+  color myColor;
+  int size;
+  Particle() {
+    myX = startX;
+    myY = startY;
+    myColor = Color;
+    speed = (Math.random()*4);
+    angle = Math.random()*2;
+    size = 4;
+  }
+  void move() {
+    myX += (speed*Math.cos(angle*PI));
+    myY += (speed*Math.sin(angle*PI));
+  }
+  void show() {
+
+    noStroke();
+    fill(myColor);
+    ellipse((float)myX, (float)myY, size, size);
+  }
+}
+
+class Oddball extends Particle {
+  Oddball() {
+    myX = (int)(Math.random()*600)+100;
+    myY = 800;
+    speed = 8;
+    angle = 1.5*PI;
+    size = 8;
+    Color = color((int)(Math.random()*255), (int)(Math.random()*255), (int)(Math.random()*255));
+  }
+  void move() {
+    myY = myY - 4;
+  }
+  void show() {
+    noStroke();
+    fill(Color);
+    ellipse((float)myX, (float)myY, size, size);
+  }
+}
