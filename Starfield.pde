@@ -1,74 +1,155 @@
-Particle[] dot = new Particle[500];
+Particle[] dot = new Particle[720];
 void setup() {
+
   size(800, 800);
   background(255);
-  for (int i = 0; i < dot.length; i++) {
-    dot[i] = new Particle();
+  for (int j = 0; j < 360; j++) {
+    dot[j] = new Particle();
+    dot[j].setAngle(PI*j/180);
+  }
+  for (int i = 360; i < dot.length; i++) {
+    dot[i] = new Oddball();
+    dot[i].setAngle(PI*((i-360))/180);
   }
 }
-double w = Math.random()*800;
-double h = Math.random()*800;
-color Color = color((int)(Math.random()*255), (int)(Math.random()*255), (int)(Math.random()*255));
-int timer = 0;
+float count = 0;
 void draw() {
-  timer += 1;
+  fill(255);
+  noStroke();
   fill(0, 0, 0, 16);
   rect(0, 0, 800, 800);
-  for (int i = 0; i < dot.length; i++) {
+  for (int i = 0; i < 360; i++) {
     dot[i].move();
     dot[i].show();
   }
-
-  if (timer%120 == 0) {
-    //fill(255);
-    //rect(0,0,800,800);
-    for (int i = 0; i < dot.length; i++) {
-      dot[i] = new Particle();
-    }
-    for (int i = 0; i < dot.length; i++) {
-      Color = color((int)(Math.random()*255), (int)(Math.random()*255), (int)(Math.random()*255));
-      w = Math.random()*800;
-      h = Math.random()*800;
-      dot[i].move();
-      dot[i].show();
-    }
+  for (int j = 360; j < 720; j++) {
+    dot[j].move();
+    dot[j].show();
   }
 }
 
-void mouseReleased() {
-  for (int i = 0; i < dot.length; i++) {
-    dot[i] = new Particle();
-  }
-  for (int i = 0; i < dot.length; i++) {
-    w = Math.random()*800;
-    h = Math.random()*800;
-    dot[i].move();
-    dot[i].show();
-  }
-}
 
 class Particle {
-  double myX, myY, speed, angle;
-  color myColor;
+  float myX, myY, speed, angle;
+  int size;
+  public void setAngle(float n) {
+    angle = n;
+  }
+  public void setmyX(){
+  }
+  public void setmyY(){
+  }
   Particle() {
-    speed = Math.random()*10;
-    myX = w;//Math.random()*800;
-    myY = h;//Math.random()*800;
-    myColor = color(255);
-    speed = (Math.random()*6);
-    angle = Math.random()*2;
+    myX = 400;
+    myY = 400;
+    speed = 3.0;
+    size = 8;
   }
   void move() {
-    myX = myX + (speed*Math.cos(angle*PI));
-    myY = myY + (speed*Math.sin(angle*PI));
+    if (angle <= 2*PI && angle > 1.5*PI) {
+      if ((sqrt(sq(abs(mouseX-400))+sq(abs(mouseY-400))))>(sqrt(sq(abs(myX-400))+sq(abs(myY-400))))) {
+        myX += (speed*Math.cos(angle));
+        myY += (speed*Math.sin(angle));
+      } else {
+        myX -= (speed*Math.cos(angle));
+        myY -= (speed*Math.sin(angle));
+      }
+    }
+    if (angle <= 1.5*PI && angle > PI) {
+      if ((sqrt(sq(abs(mouseX-400))+sq(abs(mouseY-400))))>(sqrt(sq(abs(myX-400))+sq(abs(myY-400))))) {
+        myX += (speed*Math.cos(angle));
+        myY += (speed*Math.sin(angle));
+      } else {
+        myX -= (speed*Math.cos(angle));
+        myY -= (speed*Math.sin(angle));
+      }
+    }
+    if (angle <= PI && angle > .5*PI) {
+      if ((sqrt(sq(abs(mouseX-400))+sq(abs(mouseY-400))))>(sqrt(sq(abs(myX-400))+sq(abs(myY-400))))) {
+        myX += (speed*Math.cos(angle));
+        myY += (speed*Math.sin(angle));
+      } else {
+        myX -= (speed*Math.cos(angle));
+        myY -= (speed*Math.sin(angle));
+      }
+    }
+    if (angle <= .5*PI && angle >= 0) {
+      if ((sqrt(sq(abs(mouseX-400))+sq(abs(mouseY-400))))>(sqrt(sq(abs(myX-400))+sq(abs(myY-400))))) {
+        myX += (speed*Math.cos(angle));
+        myY += (speed*Math.sin(angle));
+      } else {
+        myX -= (speed*Math.cos(angle));
+        myY -= (speed*Math.sin(angle));
+
+
+      }
+    }
+  }
+  void show() {
+
+    noStroke();
+    fill(255);
+    ellipse((float)myX, (float)myY, size, size);
+  }
+}
+
+class Oddball extends Particle {
+  public void setAngle(float n) {
+    angle = n;
+  }
+  Oddball() {
+    myX = 400;
+    myY = 400;
+    speed = 3.0;
+    size = 8;
+  }
+  public void setmyX(){
+    myX = (sqrt(2)*400)*cos(angle)+565.7;
+  }
+  public void setmyY(){
+    myY = (sqrt(2)*400)*sin(angle)+565.7;
+  }
+  void move() {
+    if (angle <= 2*PI && angle > 1.5*PI) {
+      if (565.7-(sqrt(sq(abs(mouseX-400))+sq(abs(mouseY-400))))<(sqrt(sq(abs(myX-400))+sq(abs(myY-400))))) {
+        myX += (speed*Math.cos(angle));
+        myY += (speed*Math.sin(angle));
+      } else {
+        myX -= (speed*Math.cos(angle));
+        myY -= (speed*Math.sin(angle));
+      }
+    }
+    if (angle <= 1.5*PI && angle > PI) {
+      if (565.7-(sqrt(sq(abs(mouseX-400))+sq(abs(mouseY-400))))<(sqrt(sq(abs(myX-400))+sq(abs(myY-400))))) {
+        myX += (speed*Math.cos(angle));
+        myY += (speed*Math.sin(angle));
+      } else {
+        myX -= (speed*Math.cos(angle));
+        myY -= (speed*Math.sin(angle));
+      }
+    }
+    if (angle <= PI && angle > .5*PI) {
+      if (565.7-(sqrt(sq(abs(mouseX-400))+sq(abs(mouseY-400))))<(sqrt(sq(abs(myX-400))+sq(abs(myY-400))))) {
+        myX += (speed*Math.cos(angle));
+        myY += (speed*Math.sin(angle));
+      } else {
+        myX -= (speed*Math.cos(angle));
+        myY -= (speed*Math.sin(angle));
+      }
+    }
+    if (angle <= .5*PI && angle >= 0) {
+      if (565.7-(sqrt(sq(abs(mouseX-400))+sq(abs(mouseY-400))))<(sqrt(sq(abs(myX-400))+sq(abs(myY-400))))) {
+        myX += (speed*Math.cos(angle));
+        myY += (speed*Math.sin(angle));
+      } else {
+        myX -= (speed*Math.cos(angle));
+        myY -= (speed*Math.sin(angle));
+      }
+    }
   }
   void show() {
     noStroke();
-    fill(Color);
-    ellipse((float)myX, (float)myY, 2, 2);
+    fill(255);
+    ellipse((float)myX, (float)myY, size, size);
   }
-}
-
-
-class OddballParticle {
 }
