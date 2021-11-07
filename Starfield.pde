@@ -149,7 +149,7 @@ class Oddball extends Particle {
   }
   void show() {
     noStroke();
-    fill(0,0,255);
+    fill((int)(Math.random()*255),0,0);
     ellipse((float)myX, (float)myY, size, size);
   }
 }
