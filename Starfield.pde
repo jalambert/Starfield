@@ -88,7 +88,7 @@ class Particle {
   void show() {
 
     noStroke();
-    fill(255);
+    fill(0,0,(int)(Math.random()*255));
     ellipse((float)myX, (float)myY, size, size);
   }
 }
@@ -149,7 +149,7 @@ class Oddball extends Particle {
   }
   void show() {
     noStroke();
-    fill(255);
+    fill(0,0,255);
     ellipse((float)myX, (float)myY, size, size);
   }
 }
